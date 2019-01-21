@@ -6,10 +6,14 @@ require_once 'debut-page.php';
 if(isset($_POST['nom']))
 {
 	// Construire la requête SQL avec les champs saisis par l'utilisateur dans le formulaire
-	$sql="SELECT * FROM utilisateurs WHERE nom='".$_POST['nom']."' AND motdepasse='".$_POST['motdepasse']."'";
+	$sql="SELECT * FROM utilisateurs WHERE nom=':nom' AND motdepasse=':motdepasse'";
+	$datas = [
+		'nom' => $_POST['nom'],
+		'motdepasse' => $_POST['motdepasse'],
+	];
 	// Faire la requête SQL
 	$query=$pdo->prepare($sql);
-	$query->execute();
+	$query->execute($datas);
 
 	if($query===false)
 	{
